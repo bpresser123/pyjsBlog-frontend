@@ -1,26 +1,13 @@
 import React, { Component } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Input, Button } from 'antd';
 import axios from 'axios';
-
-const FormItem = Form.Item;
 
 class CustomForm extends Component {
 
-  state = {
-    title: "",
-    content: ""
-  }
-
-
-  onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
   handleFormSubmit = (event, requestType, articleID) => {
 
-    const { title, content } = this.state;
-
-    console.log("x");
+    const title = event.target.elements.title.value;
+    const content = event.target.elements.content.value;
 
     switch (requestType) {
       case 'post':
@@ -41,18 +28,13 @@ class CustomForm extends Component {
   }
 
   render() {
-    const { title, content } = this.state;
     return (
       <div>
-        <Form >
-          <FormItem>
-            <Input value={title} name="title" placeholder="Enter title.." onChange={this.onChange}/>
-          </FormItem>
-          <FormItem>
-            <Input value={content} name="content" placeholder="Enter content.." onChange={this.onChange}/>
-          </FormItem>
-        </Form>
-        <Button type="primary" onClick={(event) => this.handleFormSubmit(event, this.props.requestType, this.props.articleID)}>{this.props.btnText}</Button>
+        <form onSubmit={(event) => this.handleFormSubmit(event, this.props.requestType, this.props.articleID)}>
+            <Input name="title" placeholder="Enter title.." />
+            <Input name="content" placeholder="Enter content.." />
+          <Button type="submit" htmlType="submit">{this.props.btnText}</Button>
+        </form>
       </div>
     );
   }
